@@ -1,0 +1,183 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: API example for user operations
+  version: "1.0"
+servers:
+  - url: https://localhost:9090/v1
+    description: Development server
+  - url: https://stg.sample-server.com/v1
+    description: Staging server
+  - url: https://api.sample-server.com/v1
+    description: Production server
+paths:
+
+  /api/login:
+    post:
+      summary: ログイン（サインイン）
+      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からのログインリクエストで，入力されたユーザー情報がすでに登録済みのユーザーかどうかの認証結果を返却するAPI'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: "ユーザーメールアドレス"
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful, returns JWT token and uid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: "認証に成功した場合に返されるJWTトークン。"
+                  uid:
+                    type: string
+                    description: "認証されたユーザーの一意識別子。"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "認証に失敗した場合のエラーメッセージ。"
+
+  /api/token/refresh:
+    post:
+      summary: トークンリフレッシュ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        '200':
+          description: Refresh token successful, returns new JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Unauthorized
+
+  /api/password/reset/request:
+    post:
+      summary: パスワードリセットリクエスト
+      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からパスワードがわからないユーザーに向けて，入力されたemailをもとにリセットメールを送信するAPI．パスワードのリセットメールはUzbekistan側のサーバーからユーザーへデリバリーを想定．'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Password reset email sent successfully
+        '404':
+          description: User not found
+
+  /api/password/reset/confirm:
+    post:
+      summary: パスワードリセット実行
+      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のユーザー情報の画面からのリクエストで，入力されたパスワードへとパスワードを変更するAPI．'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Password reset successfully
+        '400':
+          description: Invalid token
+
+  /api/user/profile/{uid}:
+    get:
+      summary: ユーザープロフィール取得
+      description: '指定されたuidのユーザープロフィールを取得します。山形大学の学習コンテンツマネジメントシステム（LMS）で使用されます。'
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ユーザーの一意識別子。
+      responses:
+        '200':
+          description: Returns user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+
+
+  /api/user/profile/update:
+    put:
+      summary: ユーザープロフィール更新
+      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のユーザー情報の画面からユーザー情報を編集可能にするためのAPI．'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User profile updated successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        uid:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        userStatus:
+          type: integer
+          description: User Status
