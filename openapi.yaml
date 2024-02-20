@@ -14,8 +14,8 @@ paths:
 
   /api/login:
     post:
-      summary: ログイン（サインイン）
-      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からのログインリクエストで，入力されたユーザー情報がすでに登録済みのユーザーかどうかの認証結果を返却するAPI'
+      summary: Login (Sign-in) ログイン（サインイン）
+      description: "山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からのログインリクエストで，入力されたユーザー情報がすでに登録済みのユーザーかどうかの認証結果を返却するAPI \n \n An API that returns the authentication result of whether the entered user information from the login screen of Yamagata University's Learning Management System (LMS) is already registered or not"
       requestBody:
         required: true
         content:
@@ -55,7 +55,7 @@ paths:
 
   /api/token/refresh:
     post:
-      summary: トークンリフレッシュ
+      summary: Token Refresh トークンリフレッシュ 
       requestBody:
         required: true
         content:
@@ -80,8 +80,8 @@ paths:
 
   /api/password/reset/request:
     post:
-      summary: パスワードリセットリクエスト
-      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からパスワードがわからないユーザーに向けて，入力されたemailをもとにリセットメールを送信するAPI．パスワードのリセットメールはUzbekistan側のサーバーからユーザーへデリバリーを想定．'
+      summary: Password Reset Request パスワードリセットリクエスト
+      description: "山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からパスワードがわからないユーザーに向けて，入力されたemailをもとにリセットメールを送信するAPI．パスワードのリセットメールはUzbekistan側のサーバーからユーザーへデリバリーを想定． \n\n API to send a reset email based on the entered email address for users who have forgotten their password on the login screen of Yamagata University's Learning Management System (LMS). Password reset emails are expected to be delivered from the Uzbekistan server to the user."
       requestBody:
         required: true
         content:
@@ -99,8 +99,8 @@ paths:
 
   /api/password/reset/confirm:
     post:
-      summary: パスワードリセット実行
-      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のユーザー情報の画面からのリクエストで，入力されたパスワードへとパスワードを変更するAPI．'
+      summary: Execute Password Reset パスワードリセット実行
+      description: "山形大学の学習コンテンツマネジメントシステム（LMS）のユーザー情報の画面からのリクエストで，入力されたパスワードへとパスワードを変更するAPI．\n\n API to change the password to the entered password from the user information screen of Yamagata University's Learning Management System (LMS)."
       requestBody:
         required: true
         content:
@@ -120,8 +120,8 @@ paths:
 
   /api/user/profile/{uid}:
     get:
-      summary: ユーザープロフィール取得
-      description: '指定されたuidのユーザープロフィールを取得します。山形大学の学習コンテンツマネジメントシステム（LMS）で使用されます。'
+      summary: Get User Profile ユーザープロフィール取得
+      description: "指定されたuidのユーザープロフィールを取得します。山形大学の学習コンテンツマネジメントシステム（LMS）で使用されます。\n\n API to retrieve the user profile for the specified UID. Used in Yamagata University's Learning Management System (LMS)."
       parameters:
         - name: uid
           in: path
@@ -142,8 +142,8 @@ paths:
 
   /api/user/profile/update:
     put:
-      summary: ユーザープロフィール更新
-      description: '山形大学の学習コンテンツマネジメントシステム（LMS）のユーザー情報の画面からユーザー情報を編集可能にするためのAPI．'
+      summary: Update User Profile ユーザープロフィール更新
+      description: "山形大学の学習コンテンツマネジメントシステム（LMS）のログイン画面からの，入力されたユーザー情報が情報をアップデートするAPI. \n\n API to update user information entered from the login screen of Yamagata University's Learning Management System (LMS)."
       requestBody:
         required: true
         content:
